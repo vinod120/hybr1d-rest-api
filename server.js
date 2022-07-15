@@ -29,7 +29,7 @@ app.use((req, res, next) => {
   ) {
     var token = req.body.token || req.query.token || req.headers["auth-token"];
     if (!token)
-      return res.status(401).json("A token is required for authentication");
+      return res.status(401).json("token is required for authentication");
     try {
       const decoded = jwt.verify(token, process.env.TOKEN_SECRET_KEY);
       req.user = decoded;
