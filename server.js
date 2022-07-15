@@ -2,12 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
 const app = express();
 let routes = null;
 
 app.use(cors());
 app.use(express.json());
+dotenv.config();
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -26,8 +28,7 @@ app.use((req, res, next) => {
     });
   } else if (
     req.path != "/api/auth/login" &&
-    req.path != "/api/auth/register" && 
-    req.path != "/api/buyer/list-of-sellers"
+    req.path != "/api/auth/register"
   ) {
     var token = req.body.token || req.query.token || req.headers["auth-token"];
     if (!token)
