@@ -1,6 +1,6 @@
 const userDAO = require("../DAO/userDAO");
 const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 exports.createUser = async (req) => {
   try {
@@ -16,15 +16,17 @@ exports.createUser = async (req) => {
 };
 exports.userLogin = async (req) => {
   try {
-    let { username, password } = req;
+    var { username, password } = req;
     const user = await userDAO.getUserExists(username);
     if (!user) throw "Invalid username";
 
     const validPass = await bcrypt.compare(password, user.password);
     if (!validPass) throw "Invalid password";
-    return jwt.sign({ user: user }, process.env.TOKEN_SECRET_KEY, {
+    token = jwt.sign({ user: user }, process.env.TOKEN_SECRET_KEY, {
       expiresIn: 3600,
     });
+    var { username, role, _id } = user;
+    return { token, username, role, _id };
   } catch (err) {
     console.log(err);
     throw err;
