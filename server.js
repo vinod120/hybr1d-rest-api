@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 const app = express();
 let routes = null;
@@ -25,7 +26,8 @@ app.use((req, res, next) => {
     });
   } else if (
     req.path != "/api/auth/login" &&
-    req.path != "/api/auth/register"
+    req.path != "/api/auth/register" && 
+    req.path != "/api/buyer/list-of-sellers"
   ) {
     var token = req.body.token || req.query.token || req.headers["auth-token"];
     if (!token)
@@ -43,11 +45,24 @@ app.use((req, res, next) => {
 });
 
 const initialize = async () => {
-  let PORT = process.env.PORT || 8080;
-  app.listen(PORT);
-  routes = require("./routes");
-  routes(app);
-  console.log(`The server is up and runnig ${PORT}`);
+  let mongoConnect = mongoose.connect(process.env.MONGODB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  mongoConnect
+    .then(async (db) => {
+      console.log("MongoDB connected....");
+      db = mongoose.connection;
+      db.on("error", console.error.bind(console, "MongoDB connection error:"));
+      let PORT = process.env.PORT || 8080;
+      app.listen(PORT);
+      routes = require("./routes");
+      routes(app);
+      console.log("Server started on: " + PORT);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 initialize();
