@@ -2,7 +2,7 @@ const Users = require("../models/register");
 
 exports.getUser = async (username) => {
   try {
-    return await Users.findOne({ username: username });
+    return await Users.findOne({ username: username, role: role });
   } catch (err) {
     throw err;
   }
