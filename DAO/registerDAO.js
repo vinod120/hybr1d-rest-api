@@ -1,8 +1,11 @@
 const Users = require("../models/register");
+const users = require("../db");
 
-exports.getUser = async (username) => {
+exports.getUser = async (username, role) => {
   try {
-    return await Users.findOne({ username: username, role: role });
+    return await users.filter(
+      (user) => user.username === username && user.role === role
+    );
   } catch (err) {
     throw err;
   }
@@ -10,8 +13,7 @@ exports.getUser = async (username) => {
 
 exports.saveUser = async (userData) => {
   try {
-    const user = new Users(userData);
-    return await user.save();
+   return users.push(userData)
   } catch (err) {
     throw err;
   }

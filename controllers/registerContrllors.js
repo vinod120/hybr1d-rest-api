@@ -8,11 +8,9 @@ exports.createUser = async (req, res) => {
     return res.status(400).send(error.details[0].message);
   }
   try {
-    const result = await userServices.createUser(req.body);
-    res.json({ result, msg: "User registered successfully" });
+    const result = await userServices.createUser(req.body, res);
+    res.json({ msg: "User registered successfully", totalUsers: result });
   } catch (err) {
-    res
-      .status(406)
-      .send({ msg: "Something went wrong...Please try again", err: err });
+    res.status(406).send({ msg: err, err: true });
   }
 };
