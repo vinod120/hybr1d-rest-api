@@ -27,14 +27,15 @@ app.use((req, res, next) => {
     req.path != "/api/auth/login" &&
     req.path != "/api/auth/register"
   ) {
-    var token = req.headers["auth-token"];
-    if (token) {
-      console.log({ token });
-    } else {
-      return res.status(403).send({
-        success: false,
-        message: "No token provided",
-      });
+    var token = req.body.token || req.query.token || req.headers["auth-token"];
+    if (!token)
+      return res.status(401).json("A token is required for authentication");
+    try {
+      const decoded = jwt.verify(token, process.env.TOKEN_SECRET_KEY);
+      req.user = decoded;
+      next();
+    } catch (e) {
+      res.status(400).json("Invalid token");
     }
   } else {
     next();
