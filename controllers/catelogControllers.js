@@ -10,12 +10,14 @@ exports.createCatelog = async (req, res) => {
 };
 
 exports.getCatelogBySeller = async (req, res) => {
-    try {
-      const catelogDetails = await catelogServices.getCatelogBySeller(req.body.sellerId);
-      res.json(catelogDetails);
-   } catch (err) {
-      res
-        .status(406)
-        .send({ msg: "Something went wrong...Please try again", err: err });
-    }
-  };
+  try {
+    const catelogDetails = await catelogServices.getCatelogBySeller(
+      req.body.sellerId
+    );
+    res.json(catelogDetails);
+  } catch (err) {
+    res
+      .status(406)
+      .send({ msg: "Something went wrong...Please try again", err: err });
+  }
+};

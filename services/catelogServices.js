@@ -15,13 +15,11 @@ exports.createCatelog = async (req) => {
   }
 };
 
-
 exports.getCatelogBySeller = async (sellerId) => {
-    try {
-      return await catelogDAO.getCatelogBySeller(sellerId);
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  };
-  
+  try {
+    return await catelogDAO.getCatelogBySeller(sellerId);
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
