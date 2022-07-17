@@ -19,7 +19,7 @@ exports.saveUser = async (userData) => {
 
 exports.getListOfSellers = async () => {
   try {
-    return await Users.find({role: "seller"})
+    return await Users.find({role: "buyer"})
   } catch (err) {
     throw err;
   }

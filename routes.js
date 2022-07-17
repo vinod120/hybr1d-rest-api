@@ -15,4 +15,5 @@ module.exports = function (app) {
   app.route("/api/seller/create-catalog").post(Catelog.createCatelog);
   app.route("/api/buyer/seller-catalog/seller-id").get(Catelog.getCatelogBySeller)
   app.route("/api/buyer/create-order/seller-id").post(Orders.createOrder)
+  app.route("/api/seller/orders").get(Orders.getAllOrdersOfSeller)
 };

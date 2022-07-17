@@ -3,15 +3,12 @@ const Schema = mongoose.Schema;
 
 const orderSchema = new Schema(
   {
-    product: {
-      type: Schema.Types.ObjectId,
-      ref: "Catelog",
-    },
+    product: Object,
     quantity: {
       type: Number,
       min: 1,
     },
-    buyer: {
+    buyerId: {
       type: Schema.Types.ObjectId,
       ref: "Users",
     },
